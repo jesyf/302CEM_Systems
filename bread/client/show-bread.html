@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bread System</title>
+</head>
+<body>
+  <h1>Welcome to the Bread System</h1>
+
+  <h2>Received Orders:</h2>
+  <ul id="orderList"></ul>
+
+  <script>
+
+function displayOrder(order) {
+      const listItem = document.createElement('li');
+      listItem.textContent = `Bread Type: ${order.item}, Quantity: ${order.quantity}`;
+      document.getElementById('orderList').appendChild(listItem);
+    }
+    
+    fetch('http://localhost:4000/show-order')
+  .then(response => response.json())
+  .then(orderBig=>{
+    orderBig.forEach(order => {
+      displayOrder(order);
+    })
+
+  })
+ .catch(error => {
+    console.error('Error retrieving order:', error);
+  });
+   
+  </script>
+</body>
+</html>
