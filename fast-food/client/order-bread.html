@@ -1,91 +1,146 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Fast Food Restaurant Bread Ordering System</title>
+  <link rel="stylesheet" href="C:\Users\User\Documents\GitHub\302CEM_Systems\style.css">
   <style>
     .item {
       margin-bottom: 10px;
     }
+
     .item label {
       display: inline-block;
       width: 150px;
     }
+
     .item input {
       width: 50px;
     }
+
+    #order-form {
+      margin: 0 auto;
+      text-align: center;
+      background-color: white;
+      padding: 20px;
+    }
+
     #order-details {
       margin-top: 20px;
     }
+
+    .order-summary {
+      width: 60%;
+      margin: 20px auto;
+      background-color: white;
+      color: black;
+      border-collapse: collapse;
+    }
+
+    .order-summary th,
+    .order-summary td {
+      padding: 10px;
+      border: 1px solid black;
+    }
+
+    .confirm-btn {
+      display: block;
+      margin: 20px auto;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 20px;
+      background-color: white;
+    }
+
+    .grid-item {
+      border: 1px solid black;
+      padding: 10px;
+      text-align: center;
+    }
+
   </style>
 </head>
-<body>
-  <h1>Fast Food Restaurant</h1>
-  <form id="order-form">
-    <div class="item">
-      <label for="burger">Burger:</label>
-      <input type="number" id="burger" name="burger" value="0">
-    </div>
-    <div class="item">
-      <label for="muffin">English Muffin:</label>
-      <input type="number" id="muffin" name="muffin" value="0">
-    </div>
-    <div class="item">
-      <label for="hotDog">Hot Dog Bun:</label>
-      <input type="number" id="hotDog" name="hotDog" value="0">
-    </div>
-    <button type="submit">Place Order</button>
-  </form>
 
-  <div id="order-details"></div>
+<body>
+  <div class="container">
+    <h1>Bread Ordering System</h1>
+  <div class="grid-container">
+    <div class="grid-item">
+      <h3>Bread 1</h3>
+      <img src="bread1.jpg" alt="Bread 1">
+      <p>Price: $2.99</p>
+      <p>Pack Amount: 6 pack</p>
+      <input type="number" id="bread1-quantity" name="bread1-quantity" value="0">
+    </div>
+    <div class="grid-item">
+      <h3>Bread 2</h3>
+      <img src="bread2.jpg" alt="Bread 2">
+      <p>Price: $3.49</p>
+      <p>Pack Amount: 4 pack</p>
+      <input type="number" id="bread2-quantity" name="bread2-quantity" value="0">
+    </div>
+    <div class="grid-item">
+      <h3>Bread 3</h3>
+      <img src="bread3.jpg" alt="Bread 3">
+      <p>Price: $1.99</p>
+      <p>Pack Amount: 8 pack</p>
+      <input type="number" id="bread3-quantity" name="bread3-quantity" value="0">
+    </div>
+    <div class="grid-item">
+      <h3>Bread 4</h3>
+      <img src="bread4.jpg" alt="Bread 4">
+      <p>Price: $2.49</p>
+      <p>Pack Amount: 10 pack</p>
+      <input type="number" id="bread4-quantity" name="bread4-quantity" value="0">
+    </div>
+  </div>
+  <button type="submit">Place Order</button>
+</body>
+</form>
+
+    <button class="back-btn" onclick="goBack()">Back</button>
+
+    <div id="order-details"></div>
+
+    <table class="order-summary">
+      <tr>
+        <th>Total Price:</th>
+        <td id="total-price">$0.00</td>
+      </tr>
+    </table>
+
+    <button class="confirm-btn" onclick="confirmOrder()">Confirm</button>
+
+    <button class="login-btn logout-btn" onclick="logout()">Logout</button>
+  </div>
 
   <script>
-    document.getElementById('order-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent form submission
-  
-    // Get the form input values
-    const burgerQuantity = parseInt(document.getElementById('burger').value);
-    const muffinQuantity = parseInt(document.getElementById('muffin').value);
-    const hotDogQuantity = parseInt(document.getElementById('hotDog').value);
-  
-    // Generate the order list
-    const orderList = [];
-    if (burgerQuantity > 0) {
-      orderList.push({ item: 'Burger Bun', quantity: burgerQuantity });
+    document.getElementById('order-form').addEventListener('submit', function (event) {
+      event.preventDefault(); // Prevent form submission
+
+      // Get the form input values
+      const burgerQuantity = parseInt(document.getElementById('burger').value);
+      const muffinQuantity = parseInt(document.getElementById('muffin').value);
+      const baguetteQuantity = parseInt(document.getElementById('baguette').value);
+      const croissantQuantity = parseInt(document.getElementById('croissant').value);
+
+      // Calculate and display the total price
+      const burgerPrice = 2.99;
+      const muffinPrice = 3.49;
+      const baguettePrice = 1.99;
+      const croissantPrice = 2.49;
+      const totalPrice = burgerQuantity * burgerPrice + muffinQuantity * muffinPrice + baguetteQuantity * baguettePrice + croissantQuantity * croissantPrice;
+      document.getElementById('total-price').innerText = '$' + totalPrice.toFixed(2);
+    });
+
+    function confirmOrder() {
+      window.location.href = 'final-order.html';
     }
-    if (muffinQuantity > 0) {
-      orderList.push({ item: 'English Muffin', quantity: muffinQuantity });
+
+    function logout() {
+      window.location.href = 'fast-food-login.html';
     }
-    if (hotDogQuantity > 0) {
-      orderList.push({ item: 'Hot Dog Bun', quantity: hotDogQuantity });
-    }
-  
-    // Display the order details in the frontend
-    const orderDetailsElement = document.getElementById('order-details');
-    if (orderList.length > 0) {
-      const orderDetailsHTML = orderList.map(order => `<p>${order.item}: ${order.quantity}</p>`).join('');
-      orderDetailsElement.innerHTML = orderDetailsHTML;
-    } else {
-      orderDetailsElement.innerHTML = '<p>No items selected</p>';
-    }
-  
-    // Send the order data via POST request
-    const orderData = { orderList };
-    fetch('http://localhost:3000/place-order', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(orderData)
-    })
-      .then(response => response.json())
-      .then(responseData => {
-        // Handle the server response if needed
-        console.log(responseData);
-      })
-      .catch(error => {
-        console.error('Error placing order:', error);
-      });
-  });
-  </script>
-</body>
-</html>
+  </script

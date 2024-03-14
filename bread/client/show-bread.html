@@ -1,34 +1,59 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Bread System</title>
+  <link rel="stylesheet" href="C:\Users\User\Documents\GitHub\302CEM_Systems\style.css">
 </head>
-<body>
-  <h1>Welcome to the Bread System</h1>
 
-  <h2>Received Orders:</h2>
-  <ul id="orderList"></ul>
+<body>
+  <div class="container">
+    <h1 class="heading">Bread Ordering System</h1>
+    <div class="table-container">
+      <h2 class="heading">Order Details:</h2>
+      <div class="table-wrapper">
+      <table id="orderTable">
+        <thead>
+          <tr>
+            <th>Bread Type</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody id="orderList"></tbody>
+      </table>
+    </div>
+  </div>
+
+    <button class="login-btn logout-btn" onclick="logout()">Logout</button>
+  </div>
 
   <script>
+    function displayOrder(order) {
+      const table = document.getElementById('orderTable');
+      const row = table.insertRow();
 
-function displayOrder(order) {
-      const listItem = document.createElement('li');
-      listItem.textContent = `Bread Type: ${order.item}, Quantity: ${order.quantity}`;
-      document.getElementById('orderList').appendChild(listItem);
+      const breadTypeCell = row.insertCell();
+      breadTypeCell.textContent = order.item;
+
+      const quantityCell = row.insertCell();
+      quantityCell.textContent = order.quantity;
     }
-    
-    fetch('http://localhost:4000/show-order')
-  .then(response => response.json())
-  .then(orderBig=>{
-    orderBig.forEach(order => {
-      displayOrder(order);
-    })
 
-  })
- .catch(error => {
-    console.error('Error retrieving order:', error);
-  });
-   
+    fetch('http://localhost:4000/show-order')
+      .then(response => response.json())
+      .then(orderBig => {
+        orderBig.forEach(order => {
+          displayOrder(order);
+        })
+      })
+      .catch(error => {
+        console.error('Error retrieving order:', error);
+      });
+
+    function logout() {
+      window.location.href = 'bread-login.html';
+    }
   </script>
 </body>
+
 </html>
